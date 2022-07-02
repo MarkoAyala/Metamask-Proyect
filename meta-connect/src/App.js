@@ -24,7 +24,7 @@ function App() {
     <div className="App">
       <Navbar/>
       <WalletCard/>
-      <h1>Coin Market</h1>
+      <h1 style={{textAlign:"center"}}>Coin Market</h1>
       <Table coins={coins}/>
     </div>
   );
