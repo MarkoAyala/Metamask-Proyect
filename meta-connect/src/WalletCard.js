@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {ethers} from 'ethers'
+import { Box } from '@mui/material';
 
 function WalletCard() {
 
@@ -56,7 +57,14 @@ function WalletCard() {
     window.ethereum.on('chainChanged', chainChangedHandler); // Recargo la pagina al cambiar de cuenta
 
   return (
-    <div>
+    <Box sx={{
+		border:"1px solid green",
+		display:"flex",
+
+	}}>
+		<Box>
+
+		</Box>
         <div className='walletCard'>
 		<h4> {"Conexión a Metamask."} </h4>
 			<button onClick={connectWalletHandler}>{connButtonText}</button>
@@ -68,7 +76,7 @@ function WalletCard() {
 			</div>
 			{errorMessage}
 		</div>
-    </div>
+    </Box>
   )
 }
 

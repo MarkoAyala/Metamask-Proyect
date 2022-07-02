@@ -72,6 +72,8 @@ export default function TableCoin({coins}) {
     setPage(0);
   };
 
+
+
   return (
     <div style={{width:"100%", display:"flex", justifyContent:"center"}}>
 
