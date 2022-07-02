@@ -3,7 +3,9 @@ import './App.css';
 import WalletCard from './WalletCard.js'
 import Table from './components/Table/Table';
 import axios from 'axios';
+import Navbar from './components/Navbar/Navbar';
 import { useEffect , useState } from 'react';
+
 
 function App() {
 
@@ -20,8 +22,8 @@ function App() {
   } ,[])
   return (
     <div className="App">
+      <Navbar/>
       <WalletCard/>
-
       <h1>Coin Market</h1>
       <Table coins={coins}/>
     </div>
