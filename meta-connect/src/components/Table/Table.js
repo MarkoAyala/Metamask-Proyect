@@ -2,34 +2,55 @@ import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import css from './Table.module.css';
+import { styled } from '@mui/material/styles';
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  /* '&:last-child td, &:last-child th': {
+    border: 0,
+  }, */
+}));
 
 const columns = [
-  { id: 'id', label: '#', minWidth: 170 },
-  { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
+  { id: 'name', label: 'Coin', minWidth: 100 },
   {
-    id: 'population',
-    label: 'Population',
+    id: 'current_price',
+    label: 'Price',
     minWidth: 170,
     align: 'right',
     format: (value) => value.toLocaleString('en-US'),
   },
   {
-    id: 'size',
-    label: 'Size\u00a0(km\u00b2)',
+    id: 'price_change_percentage_24h',
+    label: 'Price Change(24hs)',
     minWidth: 170,
     align: 'right',
     format: (value) => value.toLocaleString('en-US'),
   },
   {
-    id: 'density',
-    label: 'Density',
+    id: 'symbol',
+    label: 'TAG',
     minWidth: 170,
-    align: 'right',
+    align: 'center',
     format: (value) => value.toFixed(2),
   },
 ];
@@ -40,6 +61,7 @@ const columns = [
 export default function TableCoin({coins}) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  console.log(coins)
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -57,42 +79,100 @@ export default function TableCoin({coins}) {
       <TableContainer sx={{ width:"100%"}}>
         <Table stickyHeader aria-label="sticky table" sx={{ width:"100%"}}>
           <TableHead sx={{ width:"100%"}}>
-            <TableRow sx={{ width:"100%"}}>
-              {columns.map((column) => (
-                <TableCell
+            <StyledTableRow sx={{ width:"100%"}} >
+              {columns.map((column) =>{
+                
+                  if(column.id === 'name'){
+                    return(
+                      <StyledTableCell
                   key={column.id}
                   align={column.align}
-                  style={{ width:"100%"}}
+                  style={{width:"157px", textAlign:"center"}}
                 >
                   {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
+                </StyledTableCell>
+                    )
+                  }
+                  if(column.id === 'current_price'){
+                    return(
+                      <StyledTableCell
+                  key={column.id}
+                  align={column.align}
+                  style={{width:"50%"}}
+                >
+                  {column.label}
+                </StyledTableCell>
+                    )
+                  }
+                  if(column.id === 'price_change_percentage_24h'){
+                    return(
+                      <StyledTableCell
+                  key={column.id}
+                  align={column.align}
+                  style={{minWidth:"185px"}}
+                >
+                  {column.label}
+                </StyledTableCell>
+                    )
+                  }
+                  if(column.id ==='symbol'){
+                    return (
+                <StyledTableCell
+                  key={column.id}
+                  align={column.align}
+                  style={{width:"10%"}}
+                >
+                  {column.label}
+                </StyledTableCell>
+                    )
+                  }
+              
+             
+                
+              })}
+            </StyledTableRow>
           </TableHead>
           <TableBody sx={{ width:"100%"}}>
             {coins
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, index) => {
+              .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code} sx={{ width:"100%"}}>
+                  <StyledTableRow hover role="checkbox" tabIndex={-1} key={row.code} sx={{ width:"100%"}}>
                     {columns.map((column) => {
                       const value = row[column.id];
 
-                      if(column.id === "id"){
+                      if(column.id === "name"){
                         return (
-                            <TableCell key={column.id} align={column.align}>
-                                {index +1}
-                            </TableCell>
+                            <StyledTableCell key={column.id} align={column.align} className={css.tablecell}>
+                              <div style={{display:"flex",justifyContent:"start",textAlign:"center",lineHeight:"30px"}}>
+                              <img src={row.image} alt=""  style={{width:"30px", height:"30px", marginRight:"7px"}}/>
+                              <span>{value}</span>
+                              </div>
+                            </StyledTableCell>
+                        )
+                      }
+                      if(column.id === 'current_price'){
+                        return (
+                        <StyledTableCell key={column.id} align={column.align}>
+                          {value + " USD"}
+                        </StyledTableCell>
+                        )
+                      }
+                      if(column.id === 'price_change_percentage_24h'){
+                        return (
+                        <StyledTableCell key={column.id} align={column.align}>
+                          <span style={{color:value>1?"green":"red"}}>{value + "%"}</span>
+                        </StyledTableCell>
                         )
                       }  
 
                       return (
-                        <TableCell key={column.id} align={column.align}>
-                          {value}
-                        </TableCell>
+                        <StyledTableCell key={column.id} align="left" style={{color:"grey"}}>
+                          {"#"+value.toUpperCase()}
+                        </StyledTableCell>
                       );
                     })}
-                  </TableRow>
+                  </StyledTableRow>
                 );
               })}
           </TableBody>
