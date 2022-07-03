@@ -11,6 +11,7 @@
     font-family: 'Montserrat', sans-serif;
     font-size: 20px;
     font-weight: lighter;
+    cursor: pointer;
     letter-spacing: 2px;
     transition: 1s box-shadow;
   }

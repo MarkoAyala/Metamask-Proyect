@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
-import { Box, Grid } from "@mui/material";
+import { Box, Button, Grid } from "@mui/material";
 import Metamask from "./Assets/Metamask.png";
 import BackgroundMeta from "./Assets/BackgroundMeta.png";
 import Tilt from "react-parallax-tilt";
@@ -60,7 +60,7 @@ function WalletCard() {
   return (
     <Grid
       container
-      sx={{ width: "100%", display: "flex", justifyContent: "center" }}
+      sx={{ width: "100vw", display: "flex", justifyContent: "center"}}
     >
       <Grid
         maxWidth={"xl"}
@@ -71,7 +71,7 @@ function WalletCard() {
           margin: { xs: "6% 0 0 0", md: "3% 0 0 0" },
         }}
       >
-        <Grid item md={5} sx={{ display: "flex", justifyContent: "center" }}>
+        <Grid item xs={5} sm={12} md={12} lg={6} sx={{ display: {xs:"none", lg:"flex"}, justifyContent: "center", alignItems:"center"}}>
           <Tilt style={{ width: "60%" }}>
             <img
               src={Metamask}
@@ -83,9 +83,10 @@ function WalletCard() {
             />
           </Tilt>
         </Grid>
-        <Grid item md={7} sx={{ border: "1px solid blue", padding:"0px 0px 0px 0px !important", }}>
+        <Grid item xs={12} sm={12} md={12} lg={5} sx={{padding:"0px 0px 0px 0px !important", margin:{xs:"0px 0px 0px 0px", sm:"0px 40px 0px 40px", lg:"0px"}}}>
+			<h4 style={{textAlign:"center", margin:0,}}>Conectarse a:</h4>
           <Box width="100%">
-            <div className={css.titulo}>METAMASK</div>
+            <div onClick={connectWalletHandler} className={css.titulo}>METAMASK</div>
           </Box>
 {/* 
           <h4> {"Conexión a Metamask."} </h4>
@@ -96,7 +97,7 @@ function WalletCard() {
           <div className="balanceDisplay">
             <h3>Saldo: {userBalance}</h3>
           </div> */}
-		  <TableMeta/>
+		  <TableMeta connButtonText={connButtonText} defaultAccount={defaultAccount} userBalance={userBalance}/>
           {errorMessage}
         </Grid>
       </Grid>
