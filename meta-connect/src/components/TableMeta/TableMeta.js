@@ -39,7 +39,7 @@ export default function TableMeta({connButtonText , defaultAccount, userBalance}
             sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
           >
             <TableCell component="th" scope="row" sx={{ flexGrow: 1, height:"53px", alignItems:"center" }}>
-              Conexion a Metamask
+              Conexion
             </TableCell>
             <TableCell align="right" sx={{ flexGrow: 1, display:"flex", justifyContent:"center", height:"53px", alignItems:"center", padding:{xs:"6px 0px 6px 0px", sm:"6px 16px 6px 16px"} }}>
                 {

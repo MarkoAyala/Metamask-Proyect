@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import Metamask from "./Assets/Metamask.png";
 import BackgroundMeta from "./Assets/BackgroundMeta.png";
 import Tilt from "react-parallax-tilt";
@@ -53,14 +53,16 @@ function WalletCard() {
     window.location.reload();
   };
 
-  window.ethereum.on("accountsChanged", accountChangedHandler); // Actualiza los datos al cambiar la cuenta
 
-  window.ethereum.on("chainChanged", chainChangedHandler); // Recargo la pagina al cambiar de cuenta
+  if(window.ethereum){
+    window.ethereum.on("accountsChanged", accountChangedHandler); // Actualiza los datos al cambiar la cuenta
+    window.ethereum.on("chainChanged", chainChangedHandler); // Recargo la pagina al cambiar de cuenta
+  }
 
   return (
     <Grid
       container
-      sx={{ width: "100vw", display: "flex", justifyContent: "center"}}
+      sx={{ width: "100%", display: "flex", justifyContent: "center"}}
     >
       <Grid
         maxWidth={"xl"}
@@ -98,7 +100,7 @@ function WalletCard() {
             <h3>Saldo: {userBalance}</h3>
           </div> */}
 		  <TableMeta connButtonText={connButtonText} defaultAccount={defaultAccount} userBalance={userBalance}/>
-          {errorMessage}
+          <Typography component="h5" sx={{textAlign:"center" , color:"red"}}>{errorMessage}</Typography>
         </Grid>
       </Grid>
     </Grid>

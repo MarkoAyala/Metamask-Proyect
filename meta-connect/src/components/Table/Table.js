@@ -43,7 +43,7 @@ const columns = [
     id: 'price_change_percentage_24h',
     label: 'Price Change(24hs)',
     minWidth: 170,
-    align: 'right',
+    align: 'center',
     format: (value) => value.toLocaleString('en-US'),
   },
   {
@@ -58,7 +58,7 @@ const columns = [
 
 
 
-export default function TableCoin({coins}) {
+export default function TableCoin({coins , search}) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   console.log(coins)
@@ -73,15 +73,19 @@ export default function TableCoin({coins}) {
   };
 
 
+  const filtered_coins = coins.filter((coin)=>{
+    return coin.name.toLowerCase().includes(search.toLowerCase()) || coin.symbol.toLowerCase().includes(search.toLowerCase())
+  })
+  
 
   return (
     <div style={{width:"100%", display:"flex", justifyContent:"center"}}>
 
-    <Paper sx={{ width: '80%'}}>
-      <TableContainer sx={{ width:"100%"}}>
+    <Paper sx={{ width: '95%'}}>
+      <TableContainer sx={{ width:"100%", overflowX:"hidden"}}>
         <Table stickyHeader aria-label="sticky table" sx={{ width:"100%"}}>
           <TableHead sx={{ width:"100%"}}>
-            <StyledTableRow sx={{ width:"100%"}} >
+            <StyledTableRow sx={{ width:"100%", overflow:"hidden"}} >
               {columns.map((column) =>{
                 
                   if(column.id === 'name'){
@@ -100,7 +104,7 @@ export default function TableCoin({coins}) {
                       <StyledTableCell
                   key={column.id}
                   align={column.align}
-                  style={{width:"50%"}}
+                  style={{width:"40%"}}
                 >
                   {column.label}
                 </StyledTableCell>
@@ -111,7 +115,7 @@ export default function TableCoin({coins}) {
                       <StyledTableCell
                   key={column.id}
                   align={column.align}
-                  style={{minWidth:"185px"}}
+                  sx={{width:"185px", display:{xs:"none", md:"table-cell", justifyContent:"center"}}}
                 >
                   {column.label}
                 </StyledTableCell>
@@ -122,7 +126,7 @@ export default function TableCoin({coins}) {
                 <StyledTableCell
                   key={column.id}
                   align={column.align}
-                  style={{width:"10%"}}
+                  sx={{width:"10%", display:{xs:"none", md:"table-cell", justifyContent:"center"}}}
                 >
                   {column.label}
                 </StyledTableCell>
@@ -135,11 +139,11 @@ export default function TableCoin({coins}) {
             </StyledTableRow>
           </TableHead>
           <TableBody sx={{ width:"100%"}}>
-            {coins
+            {filtered_coins
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <StyledTableRow hover role="checkbox" tabIndex={-1} key={row.code} sx={{ width:"100%"}}>
+                  <StyledTableRow hover role="checkbox" tabIndex={-1} key={row.code} sx={{ width:"100%",overflow:"hidden"}}>
                     {columns.map((column) => {
                       const value = row[column.id];
 
@@ -148,7 +152,7 @@ export default function TableCoin({coins}) {
                             <StyledTableCell key={column.id} align={column.align} className={css.tablecell}>
                               <div style={{display:"flex",justifyContent:"start",textAlign:"center",lineHeight:"30px"}}>
                               <img src={row.image} alt=""  style={{width:"30px", height:"30px", marginRight:"7px"}}/>
-                              <span>{value}</span>
+                              <span style={{width:"170px"}}>{value}</span>
                               </div>
                             </StyledTableCell>
                         )
@@ -156,20 +160,20 @@ export default function TableCoin({coins}) {
                       if(column.id === 'current_price'){
                         return (
                         <StyledTableCell key={column.id} align={column.align}>
-                          {value + " USD"}
+                          {value}
                         </StyledTableCell>
                         )
                       }
                       if(column.id === 'price_change_percentage_24h'){
                         return (
-                        <StyledTableCell key={column.id} align={column.align}>
+                        <StyledTableCell key={column.id} align={column.align} sx={{width:"185px", display:{xs:"none", md:"table-cell", justifyContent:"center"}}} >
                           <span style={{color:value>1?"green":"red"}}>{value + "%"}</span>
                         </StyledTableCell>
                         )
                       }  
 
                       return (
-                        <StyledTableCell key={column.id} align="left" style={{color:"grey"}}>
+                        <StyledTableCell key={column.id} align="left" sx={{color:"grey", display:{xs:"none", md:"table-cell", justifyContent:"center"}}}>
                           {"#"+value.toUpperCase()}
                         </StyledTableCell>
                       );
@@ -183,11 +187,12 @@ export default function TableCoin({coins}) {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={coins?.length}
+        count={filtered_coins?.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
+        style={{width:"100%"}}
       />
     </Paper>
     </div>
