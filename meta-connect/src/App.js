@@ -35,7 +35,7 @@ function App() {
           </Grid>
       </Grid>
       <Grid container maxWidth={"100%"} spacing={2} sx={{display:"flex", justifyContent:"center", margin:"10px 0px 20px 0px"}}>
-      <Grid item maxWidth="md" xs={11} sm={6} md={6} lg={4} xl={4}>
+      <Grid item maxWidth="md" xs={11} sm={6} md={6} lg={4} xl={4} sx={{padding:"0px !important"}}>
         <TextField fullWidth label="Search a Coin" id="fullWidth" onChange={(e)=>setSearch(e.target.value)}/>
       </Grid>
       </Grid>
